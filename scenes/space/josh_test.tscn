@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bqc5hlfowhb3s"]
+
+[ext_resource type="PackedScene" uid="uid://b2qdeac1q7lwp" path="res://scenes/planet/planet.tscn" id="1_pnmel"]
+
+[node name="josh_test" type="Node2D" unique_id=402231559]
+
+[node name="Planet" parent="." unique_id=1582839402 instance=ExtResource("1_pnmel")]
+position = Vector2(198, 35)
+start_velocity = Vector2(10, 2)
+
+[node name="Planet2" parent="." unique_id=169953180 instance=ExtResource("1_pnmel")]
+position = Vector2(552, 305)
