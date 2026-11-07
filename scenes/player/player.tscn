@@ -9,3 +9,5 @@ script = ExtResource("1_dovo2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1350008172]
 texture = ExtResource("1_8afob")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1860745677]
