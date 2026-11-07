@@ -8,27 +8,35 @@ class_name Body
 var mass: float = 0
 var velocity: Vector2 = Vector2(0, 0)
 
+var timer: float = 0
+var is_dead: bool = false
 
 func _ready() -> void:
 	Simulation.bodies.append(self)
 
 
-func simulate() -> void:
+func simulate(delta: float) -> void:
+	timer += delta
+	
+	if timer > 10 and name == "Planet4":
+		is_dead = true
+		
 	var acceleration: Vector2 = Vector2(0, 0)
 	
 	for body in Simulation.bodies:
-		if body == self:
+		if is_dead or body == self or body.is_dead:
 			continue
-		var distance: Vector2 = body.position - position
-		var direction = distance.normalized()
-		var distanceSquared = distance * distance
-		acceleration += body.mass / distanceSquared * direction * Simulation.G
+		var raw_distance: Vector2 =  body.position - position 
+		var direction = raw_distance.normalized()
+		var distanceSquared = raw_distance.length_squared()
+		if distanceSquared < 10:
+			distanceSquared = 10
+		acceleration += (body.mass / distanceSquared) * direction * Simulation.G
 	
-	velocity += acceleration
-	position += velocity
-	pass
+#	print(self.name)
+#	print('\t', "Pos:", position)
+#	print('\t', "Vel:", velocity)
+#	print('\t', "Acc: ", acceleration)
 
-
-func _notification(event):
-	if (event == NOTIFICATION_PREDELETE):
-		Simulation.bodies.erase(self)
+	velocity += acceleration * delta
+	global_position += velocity * delta
