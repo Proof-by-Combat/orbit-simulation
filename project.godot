@@ -12,7 +12,11 @@ config_version=5
 
 config/name="orbit-simulation"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://icon.svg"
+config/icon="res://graphics/icon.svg"
+
+[autoload]
+
+Simulation="*uid://cw7l1cj0cl8a0"
 
 [display]
 
