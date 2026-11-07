@@ -1,3 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+scenes/space/ianTest.scn
+scenes/space/josh_test.tscn
