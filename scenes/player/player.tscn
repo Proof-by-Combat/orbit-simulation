@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dswheeipnn2j1" path="res://scenes/player/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://fm3hhpejsajo" path="res://scenes/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://ctnb2f3j8a0jt" path="res://scenes/player/gun.png" id="3_gmlin"]
+[ext_resource type="Texture2D" uid="uid://chtyklqua326p" path="res://scenes/player/flare.png" id="4_lvxji"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bemfb"]
 
@@ -10,9 +11,14 @@
 texture_filter = 1
 script = ExtResource("1_dovo2")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1350008172]
+[node name="ShipSprite" type="Sprite2D" parent="." unique_id=1350008172]
 z_index = 10
 texture = ExtResource("1_8afob")
+
+[node name="FlareSprite" type="Sprite2D" parent="ShipSprite" unique_id=681212944]
+self_modulate = Color(0, 1.0000322, 0.5709733, 1)
+position = Vector2(-73, -1)
+texture = ExtResource("4_lvxji")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316259660]
 position_smoothing_enabled = true

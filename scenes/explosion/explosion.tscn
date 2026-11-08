@@ -117,6 +117,7 @@ animations = [{
 }]
 
 [node name="Explosion" type="AnimatedSprite2D" unique_id=59981636]
+z_index = 15
 sprite_frames = SubResource("SpriteFrames_plwnx")
 animation = &"Explode"
 frame = 14

@@ -16,9 +16,10 @@ var _shooting: bool = false
 
 var _shoot_cooldown: float = 0
 
-@onready var _sprite: Sprite2D = $"Sprite2D"
+@onready var _sprite: Sprite2D = $"ShipSprite"
 @onready var _camera: Camera2D = $"Camera2D"
 @onready var _gun_sprite: Sprite2D = $"GunSprite"
+@onready var _flare_sprite: Sprite2D = $"ShipSprite/FlareSprite"
 
 var bullet_scene: PackedScene = preload("uid://chb1ivd6bmhc2")
 
@@ -89,6 +90,12 @@ func simulate(delta: float) -> void:
 	_gun_sprite.position = -to_mouse.normalized() * _shoot_cooldown * 32
 	
 	_shoot_cooldown = move_toward(_shoot_cooldown,0,delta)
+	
+	if _movement_input:
+		_flare_sprite.scale.y = velocity.length() / 1000
+		_flare_sprite.scale.y += randf_range(-1,1)
+	else:
+		_flare_sprite.scale.y = 0
 	
 	super(delta)
 	
