@@ -2,6 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://dswheeipnn2j1" path="res://scenes/player/player.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://fm3hhpejsajo" path="res://scenes/player/player.gd" id="1_dovo2"]
+[ext_resource type="Texture2D" uid="uid://ctnb2f3j8a0jt" path="res://scenes/player/gun.png" id="3_gmlin"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bemfb"]
 
 [node name="Player" type="Node2D" unique_id=1540677567]
 texture_filter = 1
@@ -13,3 +16,13 @@ texture = ExtResource("1_8afob")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316259660]
 position_smoothing_enabled = true
+position_smoothing_speed = 10.0
+
+[node name="GunSprite" type="Sprite2D" parent="." unique_id=340196941]
+texture = ExtResource("3_gmlin")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=486855801]
+collision_layer = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1872828613]
+shape = SubResource("RectangleShape2D_bemfb")
