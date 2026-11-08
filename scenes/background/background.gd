@@ -12,7 +12,7 @@ func _ready() -> void:
 	texture = looped_texture
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var rect: Rect2
 	var screen_rect: Rect2 = get_viewport_rect()
 	rect.size = screen_rect.size / camera.zoom

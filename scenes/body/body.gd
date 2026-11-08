@@ -15,7 +15,7 @@ func _ready() -> void:
 
 
 func simulate(delta: float) -> void:
-		
+	
 	var acceleration: Vector2 = Vector2(0, 0)
 	
 	for body in Simulation.bodies:
