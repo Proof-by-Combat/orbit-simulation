@@ -1,3 +1,8 @@
 [gd_scene format=3 uid="uid://cehk40eokb16t"]
 
-[node name="Background" type="Node2D" unique_id=2091450534]
+[ext_resource type="Script" uid="uid://d4hkdl6kh1ic2" path="res://scenes/background/background.gd" id="1_iheb5"]
+
+[node name="Background" type="Polygon2D" unique_id=2116770839]
+z_index = -20
+texture_filter = 1
+script = ExtResource("1_iheb5")

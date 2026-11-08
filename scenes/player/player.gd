@@ -10,8 +10,10 @@ const _MAX_MOVEMENT_SPEED: float = 100
 
 var _movement_input: Vector2
 var _braking: bool
+var _goal_zoom: float = 1
 
 @onready var _sprite: Sprite2D = $"Sprite2D"
+@onready var _camera: Camera2D = $"Camera2D"
 
 
 func _ready() -> void:
@@ -28,16 +30,39 @@ func _input(_event: InputEvent) -> void:
 	_movement_input = Vector2(input_x, input_y).normalized()
 
 
+func _handle_zoom(delta: float) -> void:
+	const ZOOM_AMOUNT: float = 0.25
+	var zoom_increment: float = 1-ZOOM_AMOUNT
+	
+	if Input.is_action_just_pressed(&"zoom_in"):
+		_goal_zoom *= 1.0 / zoom_increment
+		
+	elif Input.is_action_just_pressed(&"zoom_out"):
+		_goal_zoom *= zoom_increment
+	
+	const ZOOM_INTERP: float = 10
+	_camera.zoom.x = lerp(_camera.zoom.x, _goal_zoom, 1-exp(-delta*ZOOM_INTERP))
+	_camera.zoom.y = _camera.zoom.x
+	
+
+
 func simulate(delta: float) -> void:
 	
-	var additional = _movement_input * _ACCELERATION
-	velocity += additional
+	var additional: Vector2 = _movement_input * _ACCELERATION
+	#var dot: float = velocity.normalized().dot(_movement_input.normalized())
+	#
+	#if dot <= 0:
+		#velocity += additional
+	#else:
+		#velocity += (1-dot) * additional
 	
 	if _braking:
 		var temp_velocity: Vector2 = velocity
 		velocity -= velocity.normalized() * _FRICTION
 		if velocity.dot(temp_velocity) < 0:
 			velocity = Vector2.ZERO
+	else:
+		velocity += additional
 	
 	if _movement_input != Vector2.ZERO:
 		_sprite.rotation = lerp_angle(
@@ -48,10 +73,4 @@ func simulate(delta: float) -> void:
 	
 	super(delta)
 	
-	queue_redraw()
-
-
-#func _draw() -> void:
-	#draw_circle(Vector2.ZERO, _MAX_MOVEMENT_SPEED, Color.RED, false)
-	#draw_line(Vector2.ZERO, velocity, Color.BLUE)
-	#draw_line(Vector2.ZERO, _movement_input, Color.GREEN)
+	_handle_zoom(delta)
