@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bh31arii1poij"]
+
+[ext_resource type="Script" uid="uid://d1mop6gwh3ax7" path="res://scenes/player/radar/radar.gd" id="1_mx4nr"]
+
+[node name="Radar" type="CanvasLayer" unique_id=58422161]
+script = ExtResource("1_mx4nr")
