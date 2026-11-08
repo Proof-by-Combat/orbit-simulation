@@ -8,7 +8,6 @@ class_name Body
 var mass: float = 0
 var velocity: Vector2 = Vector2(0, 0)
 
-var timer: float = 0
 var is_dead: bool = false
 
 func _ready() -> void:
@@ -16,10 +15,6 @@ func _ready() -> void:
 
 
 func simulate(delta: float) -> void:
-	timer += delta
-	
-	if timer > 10 and name == "Planet4":
-		is_dead = true
 		
 	var acceleration: Vector2 = Vector2(0, 0)
 	
