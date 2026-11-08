@@ -13,11 +13,9 @@ var is_dead: bool = false
 func _ready() -> void:
 	Simulation.bodies.append(self)
 
-
-func simulate(delta: float) -> void:
-		
+func get_acceleration() -> Vector2:
 	var acceleration: Vector2 = Vector2(0, 0)
-	
+	const cap: float = 500
 	for body in Simulation.bodies:
 		if is_dead or body == self or body.is_dead:
 			continue
@@ -27,11 +25,16 @@ func simulate(delta: float) -> void:
 		if distanceSquared < 10:
 			distanceSquared = 10
 		acceleration += (body.mass / distanceSquared) * direction * Simulation.G
+		if acceleration.length() > cap:
+			acceleration = acceleration.normalized() * cap
+	return acceleration
+
+func simulate(delta: float) -> void:
 	
 #	print(self.name)
 #	print('\t', "Pos:", position)
 #	print('\t', "Vel:", velocity)
 #	print('\t', "Acc: ", acceleration)
 
-	velocity += acceleration * delta
+	velocity += get_acceleration() * delta
 	global_position += velocity * delta
