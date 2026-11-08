@@ -16,15 +16,16 @@ var _shooting: bool = false
 
 var _shoot_cooldown: float = 0
 
+@onready var camera: Camera2D = $"Camera2D"
 @onready var _sprite: Sprite2D = $"ShipSprite"
-@onready var _camera: Camera2D = $"Camera2D"
 @onready var _gun_sprite: Sprite2D = $"GunSprite"
 @onready var _flare_sprite: Sprite2D = $"ShipSprite/FlareSprite"
 
 var bullet_scene: PackedScene = preload("uid://chb1ivd6bmhc2")
-
+var _explosion_scene: PackedScene = preload("uid://dcmp5jpyb5o1a")
 
 func _ready() -> void:
+	PlayerStats.currentPlayer = self
 	super()
 
 
@@ -46,11 +47,11 @@ func _handle_zoom(delta: float) -> void:
 	elif Input.is_action_just_pressed(&"zoom_out"):
 		_goal_zoom *= zoom_increment
 	
-	_goal_zoom = clampf(_goal_zoom, 0.25, 5)
+	_goal_zoom = clampf(_goal_zoom, 1.0/8.0, 5)
 	
 	const ZOOM_INTERP: float = 10
-	_camera.zoom.x = lerp(_camera.zoom.x, _goal_zoom, 1-exp(-delta*ZOOM_INTERP))
-	_camera.zoom.y = _camera.zoom.x
+	camera.zoom.x = lerp(camera.zoom.x, _goal_zoom, 1-exp(-delta*ZOOM_INTERP))
+	camera.zoom.y = camera.zoom.x
 	
 
 
@@ -100,3 +101,18 @@ func simulate(delta: float) -> void:
 	super(delta)
 	
 	_handle_zoom(delta)
+
+
+func _on_area_2d_area_entered(_area: Area2D) -> void:
+	is_dead = true
+	var ref: Explosion = _explosion_scene.instantiate()
+	ref.global_position = global_position
+	add_sibling(ref)
+	
+	camera.position_smoothing_enabled = false
+	camera.reparent(get_parent())
+
+
+func _notification(event: int) -> void:
+	if event == NOTIFICATION_PREDELETE:
+		PlayerStats.currentPlayer = null

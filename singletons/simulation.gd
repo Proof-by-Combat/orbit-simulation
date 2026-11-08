@@ -4,11 +4,12 @@ const G: float = 1
 
 var planetThingyMcBob: PackedScene = preload("res://scenes/planet/planet.tscn")
 var bodies: Array[Body]
-@onready var planet :Planet = $"../josh_test/Planet"
+#@onready var planet :Planet = $"../josh_test/Planet"
 
 func _ready() -> void:
-	await get_tree().root.ready
-	spawn_orbital(planet)
+	#await get_tree().root.ready
+	#spawn_orbital(planet)
+	pass
 	
 	
 func _physics_process(delta: float) -> void:

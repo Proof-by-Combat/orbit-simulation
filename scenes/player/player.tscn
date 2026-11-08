@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://fm3hhpejsajo" path="res://scenes/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://ctnb2f3j8a0jt" path="res://scenes/player/gun.png" id="3_gmlin"]
 [ext_resource type="Texture2D" uid="uid://chtyklqua326p" path="res://scenes/player/flare.png" id="4_lvxji"]
+[ext_resource type="PackedScene" uid="uid://bh31arii1poij" path="res://scenes/player/radar/radar.tscn" id="5_p47bc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bemfb"]
 
@@ -21,7 +22,6 @@ position = Vector2(-73, -1)
 texture = ExtResource("4_lvxji")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316259660]
-position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
 [node name="GunSprite" type="Sprite2D" parent="." unique_id=340196941]
@@ -32,3 +32,7 @@ collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1872828613]
 shape = SubResource("RectangleShape2D_bemfb")
+
+[node name="Radar" parent="." unique_id=1689074271 instance=ExtResource("5_p47bc")]
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

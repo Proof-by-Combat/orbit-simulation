@@ -5,14 +5,14 @@ extends Polygon2D
 @export var parallax_amount: float = 0.5
 
 func _ready() -> void:
-	if camera == null:
-		push_error("Background cannot find a Camera2D.")
-		return
-	
 	texture = looped_texture
 
 
 func _process(_delta: float) -> void:
+	if camera == null:
+		push_error("Background cannot find a Camera2D.")
+		return
+	
 	var rect: Rect2
 	var screen_rect: Rect2 = get_viewport_rect()
 	rect.size = screen_rect.size / camera.zoom
@@ -35,3 +35,6 @@ func _process(_delta: float) -> void:
 	
 	polygon = new_polygon
 	uv = new_uvs
+	
+	if camera != null:
+		self_modulate.a = camera.zoom.x * 3

@@ -17,6 +17,7 @@ config/icon="res://graphics/icon.svg"
 [autoload]
 
 Simulation="*uid://cw7l1cj0cl8a0"
+PlayerStats="*uid://batppj3e2d2oc"
 
 [display]
 
