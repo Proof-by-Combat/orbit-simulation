@@ -1,10 +1,9 @@
-extends AnimatedSprite2D
+extends GPUParticles2D
 
 class_name Explosion
 
 func _ready() -> void:
-	play("Explode")
-	animation_finished.connect(_die)
+	emitting = true
 
-func _die() -> void:
+func _on_finished() -> void:
 	queue_free()

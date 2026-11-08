@@ -56,7 +56,6 @@ func _handle_zoom(delta: float) -> void:
 
 
 func simulate(delta: float) -> void:
-	
 	var additional: Vector2 = _movement_input * _ACCELERATION
 	
 	if _braking:
