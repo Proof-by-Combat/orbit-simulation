@@ -13,6 +13,7 @@ var is_dead: bool = false
 func _ready() -> void:
 	Simulation.bodies.append(self)
 
+
 func get_acceleration() -> Vector2:
 	var acceleration: Vector2 = Vector2(0, 0)
 	const cap: float = 500
