@@ -12,3 +12,4 @@ z_index = 10
 texture = ExtResource("1_8afob")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1316259660]
+position_smoothing_enabled = true
