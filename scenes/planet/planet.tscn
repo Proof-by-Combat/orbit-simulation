@@ -4,18 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://wbpvfvtanrfy" path="res://scenes/planet/planet.png" id="2_q7o7h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qdbk6"]
-radius = 253.00198
+radius = 256.0
 
-[node name="Planet" type="Node2D" unique_id=1582839402]
+[node name="Planet" type="CharacterBody2D" unique_id=282153963]
+z_index = 20
+collision_layer = 5
+collision_mask = 0
 script = ExtResource("1_q7o7h")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=61423078]
 texture = ExtResource("2_q7o7h")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1208244033]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=72591893]
-shape = SubResource("CircleShape2D_qdbk6")
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=487845363]
+[node name="OnScreen" type="VisibleOnScreenNotifier2D" parent="." unique_id=487845363]
 rect = Rect2(-256, -256, 512, 512)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=72591893]
+shape = SubResource("CircleShape2D_qdbk6")

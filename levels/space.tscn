@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ce5hkbalbkg37"]
+
+[ext_resource type="PackedScene" uid="uid://bu8cyy5sbd4e1" path="res://scenes/player/player.tscn" id="1_hpxva"]
+[ext_resource type="PackedScene" uid="uid://cehk40eokb16t" path="res://scenes/background/background.tscn" id="2_cnywj"]
+[ext_resource type="Texture2D" uid="uid://yj8tobcm5lpb" path="res://scenes/background/star_background.png" id="3_fxxkj"]
+[ext_resource type="Texture2D" uid="uid://bjxx00tklk7m4" path="res://scenes/background/star_background2.png" id="4_8ud6f"]
+[ext_resource type="PackedScene" uid="uid://b2qdeac1q7lwp" path="res://scenes/planet/planet.tscn" id="5_0ho8g"]
+
+[node name="IanTest" type="Node2D" unique_id=1630443578]
+texture_filter = 1
+
+[node name="Player" parent="." unique_id=1540677567 instance=ExtResource("1_hpxva")]
+
+[node name="Background" parent="." unique_id=1621946661 node_paths=PackedStringArray("camera") instance=ExtResource("2_cnywj")]
+texture_filter = 3
+texture_repeat = 2
+texture_scale = Vector2(0.5, 0.5)
+camera = NodePath("../Player/Camera2D")
+looped_texture = ExtResource("3_fxxkj")
+
+[node name="Background2" parent="." unique_id=2116770839 node_paths=PackedStringArray("camera") instance=ExtResource("2_cnywj")]
+texture_filter = 3
+texture_repeat = 2
+texture_scale = Vector2(0.5, 0.5)
+camera = NodePath("../Player/Camera2D")
+looped_texture = ExtResource("4_8ud6f")
+parallax_amount = 0.25
+
+[node name="Planet" parent="." unique_id=282153963 instance=ExtResource("5_0ho8g")]
+position = Vector2(690, -716)
+
+[node name="Planet2" parent="." unique_id=1666533510 instance=ExtResource("5_0ho8g")]
+position = Vector2(-993, 684)
+
+[node name="Planet3" parent="." unique_id=1664703638 instance=ExtResource("5_0ho8g")]
+position = Vector2(-866, -712)
+scale = Vector2(0.24000001, 0.24000001)

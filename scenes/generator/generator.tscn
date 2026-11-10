@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://bn5gonbytyr0r"]
-
-[ext_resource type="Script" uid="uid://lrelmibx6do3" path="res://scenes/generator/generator.gd" id="1_fn663"]
-
-[node name="Generator" type="Node2D" unique_id=717827223]
-script = ExtResource("1_fn663")

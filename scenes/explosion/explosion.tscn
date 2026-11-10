@@ -37,6 +37,7 @@ color_ramp = SubResource("GradientTexture1D_5sehm")
 alpha_curve = SubResource("CurveTexture_pi5cr")
 
 [node name="GPUParticles2D" type="GPUParticles2D" unique_id=211470272]
+emitting = false
 amount = 86
 lifetime = 0.91
 one_shot = true

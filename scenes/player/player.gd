@@ -1,12 +1,12 @@
-extends Body
+extends Attractee
 
 class_name Player
 
 const _ACCELERATION: float = 10
-const _FRICTION: float = 5
-const _MAX_MOVEMENT_SPEED: float = 100
-# NOTE: _MAX_MOVEMENT_SPEED is not the terminal velocity.
-# It is the maximum speed input can take you to.
+const _BRAKE: float = 5
+#const _MAX_INPUT_SPEED: float = 100
+# NOTE: _MAX_INPUT_SPEED is NOT the terminal velocity.
+# It is the maximum speed input can take you up to.
 
 var _movement_input: Vector2
 var _braking: bool = false
@@ -16,7 +16,7 @@ var _shooting: bool = false
 
 var _shoot_cooldown: float = 0
 
-@onready var camera: Camera2D = $"Camera2D"
+@onready var camera: PlayerCamera = $"Camera2D"
 @onready var _sprite: Sprite2D = $"ShipSprite"
 @onready var _gun_sprite: Sprite2D = $"GunSprite"
 @onready var _flare_sprite: Sprite2D = $"ShipSprite/FlareSprite"
@@ -26,6 +26,7 @@ var _explosion_scene: PackedScene = preload("uid://dcmp5jpyb5o1a")
 
 func _ready() -> void:
 	PlayerStats.currentPlayer = self
+	bother_with_collision = true
 	super()
 
 
@@ -52,15 +53,44 @@ func _handle_zoom(delta: float) -> void:
 	const ZOOM_INTERP: float = 10
 	camera.zoom.x = lerp(camera.zoom.x, _goal_zoom, 1-exp(-delta*ZOOM_INTERP))
 	camera.zoom.y = camera.zoom.x
+
+
+func _handle_shooting(delta: float) -> void:
+	var to_mouse: Vector2 = get_global_mouse_position() - global_position
+	_gun_sprite.rotation = to_mouse.angle()
 	
+	if _shooting:
+		if _shoot_cooldown <= 0:
+			_shoot_cooldown = 0.25
+			
+			const BULLET_SPEED: float = 1000
+			const BARREL_OFFSET_LENGTH: float = 12
+			var barrel_offset = Vector2(0, BARREL_OFFSET_LENGTH)
+			barrel_offset = barrel_offset.rotated(to_mouse.angle())
+			
+			var ref: Bullet
+			
+			ref = bullet_scene.instantiate()
+			ref.velocity = to_mouse.normalized() * BULLET_SPEED
+			ref.global_position = global_position + barrel_offset
+			add_sibling(ref)
+			
+			ref = bullet_scene.instantiate()
+			ref.velocity = to_mouse.normalized() * BULLET_SPEED
+			ref.global_position = global_position - barrel_offset
+			add_sibling(ref)
+	
+	_gun_sprite.position = -to_mouse.normalized() * _shoot_cooldown * 32
+	
+	_shoot_cooldown = move_toward(_shoot_cooldown,0,delta)
 
 
-func simulate(delta: float) -> void:
+func _handle_movement(delta: float) -> void:
 	var additional: Vector2 = _movement_input * _ACCELERATION
 	
 	if _braking:
 		var temp_velocity: Vector2 = velocity
-		velocity -= velocity.normalized() * _FRICTION
+		velocity -= velocity.normalized() * _BRAKE
 		if velocity.dot(temp_velocity) < 0:
 			velocity = Vector2.ZERO
 	else:
@@ -72,46 +102,44 @@ func simulate(delta: float) -> void:
 			_movement_input.angle(),
 			1-exp(-delta * 10)
 		)
-	
-	var to_mouse: Vector2 = get_global_mouse_position() - global_position
-	_gun_sprite.rotation = to_mouse.angle()
-	
-	if _shooting:
-		if _shoot_cooldown <= 0:
-			_shoot_cooldown = 0.25
-			
-			var ref: Bullet = bullet_scene.instantiate()
-			const BULLET_SPEED: float = 500
-			ref.velocity = to_mouse.normalized() * BULLET_SPEED
-			ref.global_position = global_position
-			ref.global_rotation = to_mouse.angle()
-			add_sibling(ref)
-	
-	_gun_sprite.position = -to_mouse.normalized() * _shoot_cooldown * 32
-	
-	_shoot_cooldown = move_toward(_shoot_cooldown,0,delta)
-	
-	if _movement_input:
+
+
+func _handle_flare() -> void:
+	if _movement_input and !_braking:
 		_flare_sprite.scale.y = velocity.length() / 1000
 		_flare_sprite.scale.y += randf_range(-1,1)
 	else:
 		_flare_sprite.scale.y = 0
-	
-	super(delta)
-	
-	_handle_zoom(delta)
 
 
-func _on_area_2d_area_entered(_area: Area2D) -> void:
-	is_dead = true
+func _explode_and_die() -> void:
 	var ref: Explosion = _explosion_scene.instantiate()
 	ref.global_position = global_position
 	add_sibling(ref)
 	
 	camera.position_smoothing_enabled = false
+	camera.call_deferred("shake",1000,2)
 	camera.reparent(get_parent())
+	queue_free()
+
+
+func simulate(delta: float) -> void:
+	_handle_movement(delta)
+	super(delta)
+	
+	_handle_shooting(delta)
+	_handle_flare()
+	_handle_zoom(delta)
 
 
 func _notification(event: int) -> void:
 	if event == NOTIFICATION_PREDELETE:
 		PlayerStats.currentPlayer = null
+
+
+func _on_hit_area_body_entered(_body: Node2D) -> void:
+	_explode_and_die()
+
+
+func _on_hit_area_area_entered(_area: Area2D) -> void:
+	_explode_and_die()
