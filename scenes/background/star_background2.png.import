@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ee48xlx0e6bw"
-path="res://.godot/imported/planetIndicator.png-9b137a4d9386fe49efde27397be194ab.ctex"
+uid="uid://bjxx00tklk7m4"
+path="res://.godot/imported/star_background2.png-b97bb14aca67eeef555cb4ec1c98fc94.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/player/radar/planetIndicator.png"
-dest_files=["res://.godot/imported/planetIndicator.png-9b137a4d9386fe49efde27397be194ab.ctex"]
+source_file="res://scenes/background/star_background2.png"
+dest_files=["res://.godot/imported/star_background2.png-b97bb14aca67eeef555cb4ec1c98fc94.ctex"]
 
 [params]
 

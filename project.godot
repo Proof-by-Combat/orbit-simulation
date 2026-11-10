@@ -11,8 +11,9 @@ config_version=5
 [application]
 
 config/name="orbit-simulation"
+run/main_scene="uid://ce5hkbalbkg37"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://graphics/icon.svg"
+config/icon="res://graphics/icons/icon.svg"
 
 [autoload]
 
@@ -69,7 +70,7 @@ zoom_out={
 
 [layer_names]
 
-2d_physics/layer_1="Walls"
+2d_physics/layer_1="PassiveWalls"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
 

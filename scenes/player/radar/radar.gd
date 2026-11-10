@@ -20,13 +20,13 @@ func _process(_delta: float) -> void:
 	var screen_size: Vector2 = screen_rect.size
 	var center: Vector2 = screen_size / 2.0
 	
-	for i in Simulation.bodies:
+	for i in Simulation.attractors:
 		if not(i is Planet):
 			continue
 		
 		var planet: Planet = i
 		
-		if planet.on_screen_notif.is_on_screen():
+		if planet._on_screen_notif.is_on_screen():
 			continue
 		
 		var to: Vector2 = i.global_position - player.camera.global_position 
