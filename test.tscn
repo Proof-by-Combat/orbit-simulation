@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://c0vgxjhbiu0q6"]
+
+[ext_resource type="PackedScene" uid="uid://cehk40eokb16t" path="res://scenes/background/background.tscn" id="1_6uqi0"]
+[ext_resource type="Texture2D" uid="uid://yj8tobcm5lpb" path="res://scenes/background/star_background.png" id="2_6uqi0"]
+[ext_resource type="PackedScene" uid="uid://b2qdeac1q7lwp" path="res://scenes/planet/planet.tscn" id="3_ppyta"]
+[ext_resource type="PackedScene" uid="uid://bu8cyy5sbd4e1" path="res://scenes/player/player.tscn" id="3_ykrsh"]
+
+[node name="Test" type="Node2D" unique_id=1016904559]
+
+[node name="Background" parent="." unique_id=2116770839 node_paths=PackedStringArray("camera") instance=ExtResource("1_6uqi0")]
+texture_repeat = 2
+camera = NodePath("../Player/Camera2D")
+looped_texture = ExtResource("2_6uqi0")
+
+[node name="Player" parent="." unique_id=851020573 instance=ExtResource("3_ykrsh")]
+
+[node name="Planet" parent="." unique_id=282153963 instance=ExtResource("3_ppyta")]
+position = Vector2(1246, -981.99994)
+scale = Vector2(0.32904223, 0.32904223)
+
+[node name="Planet2" parent="." unique_id=1277365398 instance=ExtResource("3_ppyta")]
+position = Vector2(-1438, -1537)
+scale = Vector2(0.8282694, 0.8282694)
+
+[node name="Planet3" parent="." unique_id=383525294 instance=ExtResource("3_ppyta")]
+position = Vector2(2546, 429.00006)
+scale = Vector2(0.32904223, 0.32904223)
+
+[node name="Planet4" parent="." unique_id=1975428745 instance=ExtResource("3_ppyta")]
+position = Vector2(-3961.0002, 2878)
+scale = Vector2(0.8282694, 0.8282694)
+
+[editable path="Player"]
