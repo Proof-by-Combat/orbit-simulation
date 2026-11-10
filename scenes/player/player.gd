@@ -113,7 +113,7 @@ func _handle_flare() -> void:
 
 
 func _explode_and_die() -> void:
-	var ref: Explosion = _explosion_scene.instantiate()
+	var ref: OneShotParticle = _explosion_scene.instantiate()
 	ref.global_position = global_position
 	add_sibling(ref)
 	

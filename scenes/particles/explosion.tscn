@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dcmp5jpyb5o1a"]
 
-[ext_resource type="Script" uid="uid://bfncp3u4udhoo" path="res://scenes/explosion/explosion.gd" id="2_12s4q"]
+[ext_resource type="Script" uid="uid://bfncp3u4udhoo" path="res://scenes/particles/one_shot_particle.gd" id="2_12s4q"]
 
 [sub_resource type="Curve" id="Curve_5ogg2"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.42957747, 0.7476635), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
