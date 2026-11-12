@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://b35ndlmyfprmn" path="res://scenes/player/player_camera.gd" id="4_75vfm"]
 [ext_resource type="Texture2D" uid="uid://chtyklqua326p" path="res://scenes/player/flare.png" id="4_lvxji"]
 [ext_resource type="PackedScene" uid="uid://bh31arii1poij" path="res://scenes/player/radar/radar.tscn" id="5_p47bc"]
+[ext_resource type="PackedScene" uid="uid://y7oa7d3us4mu" path="res://scenes/trail/trail.tscn" id="7_0owmy"]
 
 [sub_resource type="Curve" id="Curve_qek5x"]
 _data = [Vector2(0.011904761, 0.96946573), 0.0, -4.978895, 0, 0, Vector2(0.116071425, 0.49618328), -1.9493135, -1.9493135, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -50,6 +51,10 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_bemfb")
 
 [node name="Radar" parent="." unique_id=1689074271 instance=ExtResource("5_p47bc")]
+
+[node name="Trail" parent="." unique_id=1062691734 instance=ExtResource("7_0owmy")]
+number_of_points = 100
+starting_width = 16.0
 
 [connection signal="area_entered" from="HitArea" to="." method="_on_hit_area_area_entered"]
 [connection signal="body_entered" from="HitArea" to="." method="_on_hit_area_body_entered"]
