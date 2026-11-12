@@ -1,6 +1,6 @@
 extends GPUParticles2D
 
-class_name Explosion
+class_name OneShotParticle
 
 func _ready() -> void:
 	emitting = true
