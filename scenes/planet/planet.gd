@@ -8,6 +8,7 @@ class_name Planet
 @warning_ignore("unused_private_class_variable")
 @onready var _on_screen_notif: VisibleOnScreenNotifier2D = $"OnScreen"
 
+@onready var path: PathFollow2D = $"Orbit/PathFollow2D"
 
 func set_mass():
 	mass = (4.0 / 3.0) * radius * radius * radius * PI * density
@@ -21,3 +22,8 @@ func _ready() -> void:
 	
 	velocity = start_velocity
 	set_mass()
+
+func _process(delta: float) -> void:
+	if path != null:
+		const SPEED: float = .1
+		path.progress_ratio += SPEED * delta
