@@ -29,26 +29,27 @@ func _ready() -> void:
 		velocity = start_velocity
 		set_mass()
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		const speed = .1
-		if get_parent() is PathFollow2D:
-			get_parent().progress_ratio += delta * speed
+		if path != null:
+			path.progress_ratio += delta * speed
 
 func handle_child_planets():
 	if get_parent() is Planet:
-		print("adding ", name)
 		
-		var path_ref: Path2D = Path2D.new() 
-		var follow_ref: PathFollow2D = PathFollow2D.new()
+		var path_ref := Path2D.new() 
+		var follow_ref := PathFollow2D.new()
+		var remote := RemoteTransform2D.new()
+		
+		remote.remote_path = self.get_path()
 		
 		add_sibling.call_deferred(path_ref)
 		path_ref.add_child(follow_ref)
 		path_ref.curve = generate_path(POINTS_IN_PATH)
-
-		reparent.call_deferred(follow_ref)
-	else:
-		print("Not adding ", name)
+		follow_ref.add_child(remote)
+		
+		path = follow_ref
 
 
 func generate_path(num_of_points: int):
@@ -58,21 +59,15 @@ func generate_path(num_of_points: int):
 	if not get_parent() is Planet:
 		return
 	
-	print("Parent: ", get_parent().name)
-	print("\t", position)
-	print("\t", global_position)
-	print("Child : ", name)
-	
 	var interval: float = 2 * PI / num_of_points
 	var curr_angle: float = 0
-	var center: Vector2 = get_parent().global_position - global_position 
-	var distance: float = center.length()
+	var center: Vector2 = Vector2.ZERO
+	var distance: float = position.length()
 	
-	print("Distance: ", distance)
 	var circle_point: Vector2
 	for i in range(num_of_points):
-		circle_point.x = cos(curr_angle) * distance + center.x
-		circle_point.y = sin(curr_angle) * distance + center.y
+		circle_point.x = cos(curr_angle) * distance
+		circle_point.y = sin(curr_angle) * distance
 		curr_angle += interval
 		curve.add_point(circle_point)
 	
@@ -89,9 +84,9 @@ func _draw() -> void:
 		return
 	
 	var array: PackedVector2Array = curve.get_baked_points()
-	for i in range(array.size() - 1):
-		draw_line(array[i], array[i + 1], Color.GREEN)
-	draw_line(array[array.size() - 1], array[0], Color.GREEN)
+	array.append(array[0])
+	
+	draw_polyline(array, Color.GREEN)
 
 
 func _notification(what: int) -> void:
