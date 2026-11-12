@@ -20,6 +20,7 @@ var _shoot_cooldown: float = 0
 @onready var _sprite: Sprite2D = $"ShipSprite"
 @onready var _gun_sprite: Sprite2D = $"GunSprite"
 @onready var _flare_sprite: Sprite2D = $"ShipSprite/FlareSprite"
+@onready var _trail: Trail = $"Trail"
 
 var bullet_scene: PackedScene = preload("uid://chb1ivd6bmhc2")
 var _explosion_scene: PackedScene = preload("uid://dcmp5jpyb5o1a")
@@ -119,7 +120,11 @@ func _explode_and_die() -> void:
 	
 	camera.position_smoothing_enabled = false
 	camera.call_deferred("shake",1000,2)
-	camera.reparent(get_parent())
+	_trail.call_deferred("stop_taking_new_points")
+	if get_parent() != null:
+		camera.reparent(get_parent())
+		_trail.reparent(get_parent())
+		_trail.set_deferred("global_position", _trail.global_position)
 	queue_free()
 
 

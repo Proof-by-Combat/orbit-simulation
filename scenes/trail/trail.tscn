@@ -1,9 +1,16 @@
 [gd_scene format=3 uid="uid://y7oa7d3us4mu"]
 
 [ext_resource type="Script" uid="uid://ccw4q6pqi60ot" path="res://scenes/trail/trail.gd" id="1_hht6e"]
+[ext_resource type="Curve" uid="uid://d0ldll1gxwcdn" path="res://scenes/trail/decay_curve.tres" id="2_qsr48"]
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_qy8dm"]
 
 [node name="Trail" type="MeshInstance2D" unique_id=1062691734]
+top_level = true
 mesh = SubResource("ImmediateMesh_qy8dm")
 script = ExtResource("1_hht6e")
+falloff_curve = ExtResource("2_qsr48")
+
+[node name="DeathTimer" type="Timer" parent="." unique_id=1912486039]
+
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]

@@ -6,6 +6,7 @@ extends Polygon2D
 
 func _ready() -> void:
 	texture = looped_texture
+	texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
 
 
 func _process(_delta: float) -> void:
