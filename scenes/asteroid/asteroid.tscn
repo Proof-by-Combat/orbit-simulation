@@ -7,8 +7,9 @@
 radius = 130.06152
 
 [node name="Asteroid" type="CharacterBody2D" unique_id=678909863]
+z_index = 30
 collision_layer = 5
-collision_mask = 0
+collision_mask = 8
 script = ExtResource("1_phgi8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=302558528]
@@ -16,3 +17,12 @@ shape = SubResource("CircleShape2D_bemfb")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1234552963]
 texture = ExtResource("2_j1t37")
+
+[node name="HitZone" type="Area2D" parent="." unique_id=303249071]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitZone" unique_id=819031677]
+shape = SubResource("CircleShape2D_bemfb")
+
+[connection signal="area_entered" from="HitZone" to="." method="_on_hit_zone_area_entered"]

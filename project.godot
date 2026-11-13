@@ -73,6 +73,7 @@ zoom_out={
 2d_physics/layer_1="PassiveWalls"
 2d_physics/layer_2="Player"
 2d_physics/layer_3="Enemy"
+2d_physics/layer_4="Player Bullet"
 
 [physics]
 
