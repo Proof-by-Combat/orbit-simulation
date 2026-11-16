@@ -4,6 +4,11 @@ class_name Planet
 
 @export var orbit_speed: float = 0.05
 @onready var _sprite: Sprite2D = $"Sprite2D"
+@export var _texture: Texture2D :
+	set(value):
+		_texture = value
+		if Engine.is_editor_hint():
+			_sprite.texture = value
 
 @warning_ignore("unused_private_class_variable")
 @onready var _on_screen_notif: VisibleOnScreenNotifier2D = $"OnScreen"
@@ -22,6 +27,8 @@ func _ready() -> void:
 		super()
 		handle_child_planets()
 		
+		if _texture:
+			_sprite.texture = _texture
 		var spriteWidth: float = _sprite.get_rect().size.x
 		radius = scale.x * spriteWidth / 2
 		
@@ -51,7 +58,6 @@ func handle_child_planets():
 
 func generate_path(num_of_points: int, offset: Vector2 = Vector2.ZERO):
 	var curve: Curve2D = Curve2D.new()
-	modulate = Color.GREEN
 	
 	if not get_parent() is Planet:
 		return
@@ -77,7 +83,6 @@ func _draw() -> void:
 	
 	var curve: Curve2D = generate_path(POINTS_IN_PATH, -position)
 	if curve == null:
-		print("No path for ", name)
 		return
 	
 	var array: PackedVector2Array = curve.get_baked_points()
