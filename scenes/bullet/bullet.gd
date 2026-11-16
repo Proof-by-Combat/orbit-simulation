@@ -5,6 +5,8 @@ class_name Bullet
 var _small_burst_scene: PackedScene = preload("uid://3rjpyg8vtylb")
 var _age: float = 0
 
+var damage: float = 10
+
 
 func simulate(delta: float) -> void:
 	_age += delta
