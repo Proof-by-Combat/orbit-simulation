@@ -2,9 +2,19 @@
 extends Attractor
 class_name Planet
 
-@export var start_velocity: Vector2 = Vector2(0.0, 0.0)
+
+@export var orbit_speed: float = 0.05
+@export var _texture: Texture2D :
+	set(value):
+		_texture = value
+		if Engine.is_editor_hint():
+			_sprite.texture = value
+			
+@export_group("Planet Data", "data_")
+@export var data_planet_name: String = "PlaceHolder"
 
 @onready var _sprite: Sprite2D = $"Sprite2D"
+
 
 @warning_ignore("unused_private_class_variable")
 @onready var _on_screen_notif: VisibleOnScreenNotifier2D = $"OnScreen"
@@ -23,17 +33,18 @@ func _ready() -> void:
 		super()
 		handle_child_planets()
 		
+		if _texture:
+			_sprite.texture = _texture
 		var spriteWidth: float = _sprite.get_rect().size.x
 		radius = scale.x * spriteWidth / 2
 		
-		velocity = start_velocity
 		set_mass()
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
-		const speed = .1
 		if path != null:
-			path.progress_ratio += delta * speed
+			path.progress_ratio += delta * orbit_speed
+			_sprite.global_rotation = 0
 
 func handle_child_planets():
 	if get_parent() is Planet:
@@ -52,9 +63,8 @@ func handle_child_planets():
 		path = follow_ref
 
 
-func generate_path(num_of_points: int):
+func generate_path(num_of_points: int, offset: Vector2 = Vector2.ZERO):
 	var curve: Curve2D = Curve2D.new()
-	modulate = Color.GREEN
 	
 	if not get_parent() is Planet:
 		return
@@ -66,21 +76,20 @@ func generate_path(num_of_points: int):
 	
 	var circle_point: Vector2
 	for i in range(num_of_points):
-		circle_point.x = cos(curr_angle) * distance
-		circle_point.y = sin(curr_angle) * distance
+		circle_point.x = cos(curr_angle) * distance + offset.x
+		circle_point.y = sin(curr_angle) * distance + offset.y
 		curr_angle += interval
 		curve.add_point(circle_point)
 	
-	curve.add_point(Vector2(distance + center.x, center.y))
+	curve.add_point(Vector2(distance, 0) + offset)
 	return curve
 
 func _draw() -> void:
 	if not Engine.is_editor_hint():
 		return
 	
-	var curve: Curve2D = generate_path(POINTS_IN_PATH)
+	var curve: Curve2D = generate_path(POINTS_IN_PATH, -position)
 	if curve == null:
-		print("No path for ", name)
 		return
 	
 	var array: PackedVector2Array = curve.get_baked_points()
