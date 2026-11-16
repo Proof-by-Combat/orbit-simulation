@@ -137,14 +137,21 @@ func simulate(delta: float) -> void:
 	_handle_zoom(delta)
 
 
-func _notification(event: int) -> void:
-	if event == NOTIFICATION_PREDELETE:
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
 		PlayerStats.currentPlayer = null
 
 
-func _on_hit_area_body_entered(_body: Node2D) -> void:
-	_explode_and_die()
-
-
-func _on_hit_area_area_entered(_area: Area2D) -> void:
+func _on_hit_area_body_entered(body: Node2D) -> void:
+	const SAFE_SPEED: float = 750
+	
+	if body is Asteroid:
+		var dot: float = velocity.dot(body.velocity)
+		var net_speed: float = (velocity - body.velocity).length()
+		
+		if (dot < 0) or (net_speed > SAFE_SPEED):
+			_explode_and_die()
+		
+		return
+	
 	_explode_and_die()
