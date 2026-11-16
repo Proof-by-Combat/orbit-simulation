@@ -146,7 +146,7 @@ func _on_hit_area_body_entered(body: Node2D) -> void:
 	const SAFE_SPEED: float = 750
 	
 	if body is Asteroid:
-		var dot: float = velocity.dot(body.velocity)
+		var dot: float = (velocity-body.velocity).dot(body.velocity)
 		var net_speed: float = (velocity - body.velocity).length()
 		
 		if (dot < 0) or (net_speed > SAFE_SPEED):

@@ -71,7 +71,7 @@ func generate_path(num_of_points: int, offset: Vector2 = Vector2.ZERO):
 	
 	var interval: float = 2 * PI / num_of_points
 	var curr_angle: float = 0
-	var center: Vector2 = Vector2.ZERO
+	#var center: Vector2 = Vector2.ZERO
 	var distance: float = position.length()
 	
 	var circle_point: Vector2
@@ -101,3 +101,8 @@ func _draw() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_TRANSFORM_CHANGED:
 		queue_redraw()
+
+
+func _on_hit_zone_body_entered(body: Node2D) -> void:
+	if (body is Bullet):
+		body.explode_and_die()
