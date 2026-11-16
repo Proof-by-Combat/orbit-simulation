@@ -2,8 +2,7 @@
 extends Attractor
 class_name Planet
 
-@export var start_velocity: Vector2 = Vector2(0.0, 0.0)
-
+@export var orbit_speed: float = 0.05
 @onready var _sprite: Sprite2D = $"Sprite2D"
 
 @warning_ignore("unused_private_class_variable")
@@ -26,14 +25,12 @@ func _ready() -> void:
 		var spriteWidth: float = _sprite.get_rect().size.x
 		radius = scale.x * spriteWidth / 2
 		
-		velocity = start_velocity
 		set_mass()
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
-		const speed = .1
 		if path != null:
-			path.progress_ratio += delta * speed
+			path.progress_ratio += delta * orbit_speed
 
 func handle_child_planets():
 	if get_parent() is Planet:
