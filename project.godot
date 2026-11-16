@@ -13,7 +13,7 @@ config_version=5
 config/name="orbit-simulation"
 run/main_scene="uid://ce5hkbalbkg37"
 config/features=PackedStringArray("4.7", "GL Compatibility")
-config/icon="res://graphics/icons/icon.svg"
+config/icon="uid://01nbklmlmv5f"
 
 [autoload]
 

@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dytk6huxcxkmr"
-path="res://.godot/imported/Electrolize-Regular.ttf-e4595fd1c4959b0d3c277072a191d33b.fontdata"
+path="res://.godot/imported/Electrolize-Regular.ttf-e11302f4f9a01db917799b4c61e44238.fontdata"
 
 [deps]
 
-source_file="res://graphics/fonts/Electrolize-Regular.ttf"
-dest_files=["res://.godot/imported/Electrolize-Regular.ttf-e4595fd1c4959b0d3c277072a191d33b.fontdata"]
+source_file="res://misc_graphics/fonts/Electrolize-Regular.ttf"
+dest_files=["res://.godot/imported/Electrolize-Regular.ttf-e11302f4f9a01db917799b4c61e44238.fontdata"]
 
 [params]
 
