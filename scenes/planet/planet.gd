@@ -2,13 +2,19 @@
 extends Attractor
 class_name Planet
 
+
 @export var orbit_speed: float = 0.05
-@onready var _sprite: Sprite2D = $"Sprite2D"
 @export var _texture: Texture2D :
 	set(value):
 		_texture = value
 		if Engine.is_editor_hint():
 			_sprite.texture = value
+			
+@export_group("Planet Data", "data_")
+@export var data_planet_name: String = "PlaceHolder"
+
+@onready var _sprite: Sprite2D = $"Sprite2D"
+
 
 @warning_ignore("unused_private_class_variable")
 @onready var _on_screen_notif: VisibleOnScreenNotifier2D = $"OnScreen"
