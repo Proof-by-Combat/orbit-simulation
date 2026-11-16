@@ -52,7 +52,7 @@ func handle_child_planets():
 		path = follow_ref
 
 
-func generate_path(num_of_points: int):
+func generate_path(num_of_points: int, offset: Vector2 = Vector2.ZERO):
 	var curve: Curve2D = Curve2D.new()
 	modulate = Color.GREEN
 	
@@ -66,19 +66,19 @@ func generate_path(num_of_points: int):
 	
 	var circle_point: Vector2
 	for i in range(num_of_points):
-		circle_point.x = cos(curr_angle) * distance
-		circle_point.y = sin(curr_angle) * distance
+		circle_point.x = cos(curr_angle) * distance + offset.x
+		circle_point.y = sin(curr_angle) * distance + offset.y
 		curr_angle += interval
 		curve.add_point(circle_point)
 	
-	curve.add_point(Vector2(distance + center.x, center.y))
+	curve.add_point(Vector2(distance, 0) + offset)
 	return curve
 
 func _draw() -> void:
 	if not Engine.is_editor_hint():
 		return
 	
-	var curve: Curve2D = generate_path(POINTS_IN_PATH)
+	var curve: Curve2D = generate_path(POINTS_IN_PATH, -position)
 	if curve == null:
 		print("No path for ", name)
 		return
