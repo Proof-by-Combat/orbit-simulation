@@ -31,6 +31,7 @@ func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if path != null:
 			path.progress_ratio += delta * orbit_speed
+			_sprite.global_rotation = 0
 
 func handle_child_planets():
 	if get_parent() is Planet:
