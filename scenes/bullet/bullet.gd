@@ -19,8 +19,12 @@ func simulate(delta: float) -> void:
 	global_rotation = velocity.angle()
 
 
-func _on_area_2d_body_entered(_body: Node2D) -> void:
+func explode_and_die() -> void:
 	var burst: OneShotParticle = _small_burst_scene.instantiate()
 	burst.global_position = global_position
 	add_sibling(burst)
 	queue_free()
+
+
+func _on_hit_area_body_entered(_body: Node2D) -> void:
+	explode_and_die()

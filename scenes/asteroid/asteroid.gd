@@ -8,7 +8,7 @@ var _angular_momentum: float = 0
 var _last_hit_angle: float = 0
 @onready var _sprite: Sprite2D = $"Sprite2D"
 
-const NUMBER_OF_OFFSPRING: int = 4
+const NUMBER_OF_OFFSPRING: int = 3
 const MAX_GENERATIONS: int = 3
 var generation: int = 0
 
@@ -96,9 +96,8 @@ func deflect(other_pos: Vector2, other_velocity: Vector2) -> void:
 	velocity += other_velocity * VELOCITY_SCALAR
 
 
-func _on_hit_zone_area_entered(area: Area2D) -> void:
-	if area.owner == null: return
-	
-	if (area.owner is Bullet):
-		health -= area.owner.damage
-		deflect(area.owner.global_position, area.owner.velocity)
+func _on_hit_zone_body_entered(body: Node2D) -> void:
+	if (body is Bullet):
+		health -= body.damage
+		deflect(body.global_position, body.velocity)
+		body.explode_and_die()
