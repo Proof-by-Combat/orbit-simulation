@@ -21,7 +21,7 @@ position = Vector2(-12, 0)
 shape = SubResource("RectangleShape2D_bemfb")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1738944078]
-collision_layer = 8
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1166171383]
 position = Vector2(-12, 0)

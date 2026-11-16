@@ -102,3 +102,4 @@ func _on_hit_zone_area_entered(area: Area2D) -> void:
 	if (area.owner is Bullet):
 		health -= area.owner.damage
 		deflect(area.owner.global_position, area.owner.velocity)
+		print(health)
