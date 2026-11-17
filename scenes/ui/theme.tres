@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://ualfya5gnd7l"]
+
+[ext_resource type="FontFile" uid="uid://dytk6huxcxkmr" path="res://misc_graphics/fonts/Electrolize-Regular.ttf" id="1_cqcnm"]
+
+[resource]
+default_font = ExtResource("1_cqcnm")
