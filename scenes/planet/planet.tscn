@@ -11,6 +11,7 @@ z_index = 20
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_q7o7h")
+_texture = ExtResource("2_q7o7h")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=61423078]
 texture = ExtResource("2_q7o7h")
