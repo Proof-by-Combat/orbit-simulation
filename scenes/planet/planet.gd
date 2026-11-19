@@ -8,23 +8,56 @@ class_name Planet
 	set(value):
 		_texture = value
 		if Engine.is_editor_hint():
+			if !is_node_ready():
+				await ready
 			_sprite.texture = value
 			
 @export_group("Planet Data", "data_")
 @export var data_planet_name: String = "PlaceHolder"
 
 @onready var _sprite: Sprite2D = $"Sprite2D"
+@onready var _hitZone: Area2D = $"HitZone"
+@onready var _collision: CollisionShape2D = $"CollisionShape2D"
+@onready var _on_screen: VisibleOnScreenNotifier2D = $"OnScreen"
 
 
 @warning_ignore("unused_private_class_variable")
 @onready var _on_screen_notif: VisibleOnScreenNotifier2D = $"OnScreen"
 
 var path: PathFollow2D = null
+var _guard: bool = false
+const POINTS_IN_PATH: int = 50
 
-const POINTS_IN_PATH: int = 1000
+func _set_mass(value: float):
+	super(value)
+	if _guard:
+		return
+	_guard = true
+	density = mass / ((4.0 / 3.0) * radius * radius * radius * PI)
+	_guard = false
 
-func set_mass():
+func _set_density(value: float):
+	super(value)
+	if _guard:
+		return
+	_guard = true
 	mass = (4.0 / 3.0) * radius * radius * radius * PI * density
+	_guard = false
+
+func _set_radius(value: float):
+	super(value)
+
+	if _guard:
+		return
+	_guard = true
+	if !is_node_ready():
+		await ready
+	mass = (4.0 / 3.0) * radius * radius * radius * PI * density
+	_sprite.scale = Vector2(radius, radius)
+	_collision.scale = Vector2(radius, radius)
+	_hitZone.scale = Vector2(radius, radius)
+	_on_screen.scale = Vector2(radius, radius)
+	_guard = false
 
 func _ready() -> void:
 	if Engine.is_editor_hint():
@@ -35,16 +68,13 @@ func _ready() -> void:
 		
 		if _texture:
 			_sprite.texture = _texture
-		var spriteWidth: float = _sprite.get_rect().size.x
-		radius = scale.x * spriteWidth / 2
-		
-		set_mass()
+#		var spriteWidth: float = _sprite.get_rect().size.x
+#		radius = scale.x * spriteWidth / 2
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if path != null:
 			path.progress_ratio += delta * orbit_speed
-			_sprite.global_rotation = 0
 
 func handle_child_planets():
 	if get_parent() is Planet:
@@ -58,6 +88,7 @@ func handle_child_planets():
 		add_sibling.call_deferred(path_ref)
 		path_ref.add_child(follow_ref)
 		path_ref.curve = generate_path(POINTS_IN_PATH)
+		follow_ref.rotates = false
 		follow_ref.add_child(remote)
 		
 		path = follow_ref
@@ -71,7 +102,6 @@ func generate_path(num_of_points: int, offset: Vector2 = Vector2.ZERO):
 	
 	var interval: float = 2 * PI / num_of_points
 	var curr_angle: float = 0
-	#var center: Vector2 = Vector2.ZERO
 	var distance: float = position.length()
 	
 	var circle_point: Vector2
