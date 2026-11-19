@@ -16,9 +16,19 @@ var _timer: float = 0
 var _take_new_points: bool = true
 
 
+func _get_parent_node2D() -> Node2D:
+	var parent = get_parent()
+	assert(parent != null, "Trail must have a parent Node2D.")
+	assert(parent is Node2D, "Parent of Trail must be of type Node2D.")
+	var parent_as_node2D: Node2D = parent
+	
+	return parent_as_node2D
+
+
 func _ready() -> void:
+	var parent_as_node2D: Node2D = _get_parent_node2D()
 	_points.resize(number_of_points)
-	_points.fill(global_position)
+	_points.fill(parent_as_node2D.global_position)
 	_timer = interval
 
 
@@ -28,10 +38,7 @@ func _add_point() -> void:
 		_tail = (_tail + 1)  % number_of_points
 		return
 	
-	var parent = get_parent()
-	assert(parent != null, "Trail must have a parent Node2D.")
-	assert(parent is Node2D, "Parent of Trail must be of type Node2D.")
-	var parent_as_node2D: Node2D = parent
+	var parent_as_node2D: Node2D = _get_parent_node2D() 
 	
 	_points[_tail] = parent_as_node2D.global_position
 	_tail = (_tail + 1)  % number_of_points
