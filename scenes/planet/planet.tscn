@@ -12,6 +12,8 @@ collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_q7o7h")
 _texture = ExtResource("2_q7o7h")
+density = 1.0
+mass = 4.1887902047863905
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=61423078]
 texture = ExtResource("2_q7o7h")

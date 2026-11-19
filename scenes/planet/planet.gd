@@ -16,7 +16,9 @@ class_name Planet
 @export var data_planet_name: String = "PlaceHolder"
 
 @onready var _sprite: Sprite2D = $"Sprite2D"
-@onready var _collision: Area2D = $"HitZone"
+@onready var _hitZone: Area2D = $"HitZone"
+@onready var _collision: CollisionShape2D = $"CollisionShape2D"
+@onready var _on_screen: VisibleOnScreenNotifier2D = $"OnScreen"
 
 
 @warning_ignore("unused_private_class_variable")
@@ -24,7 +26,7 @@ class_name Planet
 
 var path: PathFollow2D = null
 var _guard: bool = false
-const POINTS_IN_PATH: int = 1000
+const POINTS_IN_PATH: int = 50
 
 func _set_mass(value: float):
 	super(value)
@@ -44,15 +46,17 @@ func _set_density(value: float):
 
 func _set_radius(value: float):
 	super(value)
+
 	if _guard:
 		return
 	_guard = true
+	if !is_node_ready():
+		await ready
 	mass = (4.0 / 3.0) * radius * radius * radius * PI * density
-	scale = Vector2(radius, radius)
-	for child in get_children():
-		if child is Planet or child is VisibleOnScreenEnabler2D or child is Path2D:
-			child.scale = Vector2(1 / radius, 1 / radius)
-	
+	_sprite.scale = Vector2(radius, radius)
+	_collision.scale = Vector2(radius, radius)
+	_hitZone.scale = Vector2(radius, radius)
+	_on_screen.scale = Vector2(radius, radius)
 	_guard = false
 
 func _ready() -> void:
@@ -64,14 +68,13 @@ func _ready() -> void:
 		
 		if _texture:
 			_sprite.texture = _texture
-		var spriteWidth: float = _sprite.get_rect().size.x
-		radius = scale.x * spriteWidth / 2
+#		var spriteWidth: float = _sprite.get_rect().size.x
+#		radius = scale.x * spriteWidth / 2
 
 func _process(delta: float) -> void:
 	if not Engine.is_editor_hint():
 		if path != null:
 			path.progress_ratio += delta * orbit_speed
-			_sprite.global_rotation = 0
 
 func handle_child_planets():
 	if get_parent() is Planet:
@@ -85,6 +88,7 @@ func handle_child_planets():
 		add_sibling.call_deferred(path_ref)
 		path_ref.add_child(follow_ref)
 		path_ref.curve = generate_path(POINTS_IN_PATH)
+		follow_ref.rotates = false
 		follow_ref.add_child(remote)
 		
 		path = follow_ref
