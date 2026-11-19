@@ -94,10 +94,6 @@ func stop_taking_new_points() -> void:
 
 
 func _process(delta: float) -> void:
-	#if !_initialized:
-		#_initialize()
-		#return
-	
 	if interval == 0 or _timer >= interval:
 		_add_point()
 		_timer -= interval
